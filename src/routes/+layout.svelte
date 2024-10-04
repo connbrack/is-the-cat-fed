@@ -5,11 +5,13 @@
 </script>
 
 <div class="container">
-  <Navbar />
+  <div class="top-nav">
+    <Navbar />
+  </div>
   <div class="content">
     <slot></slot>
   </div>
-  <div>
+  <div class="bottom-nav">
     <BottomNav />
   </div>
 </div>
@@ -22,12 +24,25 @@
     align-items: center;
     margin-top: 30px;
     margin: 0 auto;
-    max-width: 400px;
-
     text-align: center;
+    overflow-x: hidden;
   }
   .content {
-    flex: .9; /* Takes up remaining space */
-    overflow-y: auto; /* Enables vertical scrolling */
+    flex: 100vh;
+    overflow-y: auto;
+  }
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
   }
 </style>
