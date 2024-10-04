@@ -53,8 +53,8 @@
   {#if loading}
     <div class="spinner"><Spinner size={8} /></div>
   {:else}
-    <p><span class="fancy">{stats.dry} hrs</span> since last dry food</p>
     <p><span class="fancy">{stats.wet} hrs</span> since last wet food</p>
+    <p><span class="fancy">{stats.dry} hrs</span> since last dry food</p>
     <p><span class="fancy">{stats.med} hrs</span> since her last pills</p>
     <p><span class="fancy">{stats.piss} hrs</span> since her last piss</p>
     <p><span class="fancy">{stats.poop} hrs</span> since her last poop</p>
