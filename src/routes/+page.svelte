@@ -7,13 +7,19 @@
   const api = `https://is-the-cat-fed-api.vercel.app`;
   let loading = true;
   let stats;
+  const maxTimeShown = 72
 
   function hoursPassed(timestamp) {
     const pastDate = new Date(timestamp);
     const now = new Date();
     const diffInMs = now - pastDate;
     const diffInHours = diffInMs / (1000 * 60 * 60);
-    return Math.floor(diffInHours);
+
+    if (diffInHours <= maxTimeShown) {
+     return Math.floor(diffInHours);
+    } else {
+      return `${maxTimeShown}+`
+    }
   }
 
   async function howlong(endpoint, type) {
@@ -21,7 +27,6 @@
       const response = await fetch(`${api}/${endpoint}?limit=1&type=${type}`);
       const data = await response.json();
       const timestamp = data[0].timestamp;
-      console.log(type, data);
       return hoursPassed(timestamp);
     } catch (error) {
       console.error('Fetch error:', error);
