@@ -29,6 +29,7 @@
   }
   .content {
     flex: 100vh;
+    margin-top: 60px;
     overflow-y: auto;
   }
   .top-nav {
