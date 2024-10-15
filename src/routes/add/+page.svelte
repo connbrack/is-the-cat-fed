@@ -1,28 +1,20 @@
 <script>
+  import NewButton from '$components/NewButton.svelte';
   import '$styles/main.css';
   import '$styles/button.css';
-  import { Toast } from 'flowbite-svelte';
-  import { slide } from 'svelte/transition';
-  import { CheckCircleOutline } from 'flowbite-svelte-icons';
 
   const api = `https://is-the-cat-fed-api.vercel.app`;
-  let toastStatus = false;
-  let counter = 3;
+  let buttons = [
+    { button: 'wet', submitted: false },
+    { button: 'dry', submitted: false },
+    { button: 'pills', submitted: false },
+    { button: 'piss', submitted: false },
+    { button: 'poop', submitted: false }
+  ];
 
-  function triggerToast() {
-    toastStatus = true;
-    counter = 3;
-    timeout();
-  }
-
-  function timeout() {
-    if (--counter > 0) return setTimeout(timeout, 1000);
-    toastStatus = false;
-  }
-
-  async function submit(endpoint, type) {
+  async function submit(index, endpoint, type) {
+    buttons[index].submitted = true;
     try {
-      triggerToast();
       await fetch(api + `/${endpoint}?type=${type}`, {
         method: 'POST',
         headers: {
@@ -39,42 +31,36 @@
 <div class="main-container">
   <h1>🏆 Whats new with pishi ?? 🏆</h1>
   <img src="cat.jpg" alt="Cat" width={200} />
+
   <div class="button">
-    <button class="button-53" on:click={() => submit('fed', 'wet')}> I fed her wet food!! </button>
-  </div>
-  <div class="button">
-    <button class="button-53" on:click={() => submit('fed', 'dry')}> I fed her dry food!! </button>
-  </div>
-  <div class="button">
-    <button class="button-53" on:click={() => submit('med', 'pills')}> I gave her meds!! </button>
-  </div>
-  <div class="button">
-    <button class="button-53" on:click={() => submit('log', 'piss')}> She peed !! </button>
-  </div>
-  <div class="button">
-    <button class="button-53" on:click={() => submit('log', 'poop')}> She pooped !! </button>
-  </div>
-  <div class="toast">
-    <Toast
-      dismissable={false}
-      contentClass="flex space-x-4 rtl:space-x-reverse divide-x rtl:divide-x-reverse divide-gray-200 dark:divide-gray-700"
-      transition={slide}
-      bind:toastStatus
+    <NewButton submitted={buttons[0].submitted} on:click={() => submit(0, 'fed', 'wet')}
+      >I fed her wet food!!</NewButton
     >
-      <CheckCircleOutline class="h-5 w-5 text-primary-600 dark:text-primary-500" />
-      <div class="ps-4 text-sm font-normal">Submitted !!</div>
-    </Toast>
+  </div>
+  <div class="button">
+    <NewButton submitted={buttons[1].submitted} on:click={() => submit(1, 'fed', 'dry')}>
+      I fed her dry food!!
+    </NewButton>
+  </div>
+  <div class="button">
+    <NewButton submitted={buttons[2].submitted} on:click={() => submit(2, 'med', 'pills')}>
+      I gave her meds!!
+    </NewButton>
+  </div>
+  <div class="button">
+    <NewButton submitted={buttons[3].submitted} on:click={() => submit(3, 'log', 'piss')}>
+      She peed !!
+    </NewButton>
+  </div>
+  <div class="button">
+    <NewButton submitted={buttons[4].submitted} on:click={() => submit(4, 'log', 'poop')}>
+      She pooped !!
+    </NewButton>
   </div>
 </div>
 
 <style>
-  .toast {
-    position: fixed;
-    bottom: 80px; /* Adjust position from bottom */
-  }
   .button {
     padding-top: 15px;
-    min-width: 200px;
-    max-width: 300px;
   }
 </style>

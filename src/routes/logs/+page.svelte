@@ -58,7 +58,4 @@ a:hover:before, a:focus:before {
   opacity: 1;
 }
 
-a:active {
-  transform: scale(0.9);
-}
 </style>
