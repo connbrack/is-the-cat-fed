@@ -2,6 +2,9 @@
   import NewButton from '$components/NewButton.svelte';
   import '$styles/main.css';
   import '$styles/button.css';
+  import { Toast } from 'flowbite-svelte';
+  import { slide } from 'svelte/transition';
+  import { CloseCircleSolid } from 'flowbite-svelte-icons';
 
   const api = `https://is-the-cat-fed-api.vercel.app`;
   let buttons = [
@@ -11,6 +14,20 @@
     { button: 'piss', submitted: false },
     { button: 'poop', submitted: false }
   ];
+
+  let toastStatus = false;
+  let counter = 3;
+
+  function triggerToast() {
+    toastStatus = true;
+    counter = 3;
+    timeout();
+  }
+
+  function timeout() {
+    if (--counter > 0) return setTimeout(timeout, 1000);
+    toastStatus = false;
+  }
 
   async function submit(index, endpoint, type) {
     buttons[index].submitted = true;
@@ -24,6 +41,7 @@
       });
     } catch (error) {
       console.error('POST request error:', error);
+      triggerToast();
     }
   }
 </script>
@@ -57,9 +75,22 @@
       She pooped !!
     </NewButton>
   </div>
+  <div class="toast">
+    <Toast color="red" dismissable={false} transition={slide} bind:toastStatus>
+      <svelte:fragment slot="icon">
+        <CloseCircleSolid class="h-5 w-5" />
+        <span class="sr-only">Error icon</span>
+      </svelte:fragment>
+      Oups, something went wrong
+    </Toast>
+  </div>
 </div>
 
 <style>
+  .toast {
+    position: fixed;
+    bottom: 80px; /* Adjust position from bottom */
+  }
   .button {
     padding-top: 15px;
   }
